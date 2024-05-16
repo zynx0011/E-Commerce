@@ -15,9 +15,7 @@ const App = () => {
       try {
         const res = await api.get("/users/current-user");
         dispatch(Success(res.data?.data));
-        // console.log(res.data?.data);
       } catch (error) {
-        // console.log(error);
         dispatch(Success(null));
       }
     })();
