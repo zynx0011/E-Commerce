@@ -1,12 +1,10 @@
 import OAuth from "@/utils/OAuth";
-import { BASE_URL } from "../../../config";
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { signInSuccess } from "@/store/authSlice";
-import axios from "axios";
+import { Success } from "@/store/authSlice";
 import { api } from "@/utils/axios";
 
 const SignUp = () => {
@@ -32,7 +30,7 @@ const SignUp = () => {
         }
       );
       // console.log(res);
-      dispatch(signInSuccess(res?.data?.data));
+      dispatch(Success(res?.data?.data));
       toast.success("User Registered Successfull");
       Navigate("/");
     } catch (err) {

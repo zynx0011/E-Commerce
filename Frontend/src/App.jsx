@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import Header from "./components/Header/Header.jsx";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import { api } from "./utils/axios.js";
 import { useDispatch } from "react-redux";
-import { signInSuccess } from "./store/authSlice.js";
+import { Success } from "./store/authSlice.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,11 +14,11 @@ const App = () => {
     (async () => {
       try {
         const res = await api.get("/users/current-user");
-        dispatch(signInSuccess(res.data?.data));
+        dispatch(Success(res.data?.data));
+        // console.log(res.data?.data);
       } catch (error) {
         // console.log(error);
-        dispatch(signInSuccess(null));
-        Navigate("/api/v1/users/Signup");
+        dispatch(Success(null));
       }
     })();
   }, []);

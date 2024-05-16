@@ -1,11 +1,11 @@
 import React from "react";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../FireBase.js";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { signInSuccess } from "../store/authSlice.js";
+import { Success } from "../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { api } from "./axios.js";
 const OAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const OAuth = () => {
       const auth = getAuth(app);
       const response = await signInWithPopup(auth, provider);
       // console.log(response.user);
-      const res = await axios.post("/api/v1/users/google", {
+      const res = await api.post("/users/google", {
         name: response.user.displayName,
         email: response.user.email,
         profilePicture: response.user.photoURL,
@@ -24,7 +24,7 @@ const OAuth = () => {
       // console.log(res.data);
       const data = res.data;
       toast.success("Sign In Successfull with Google Auth");
-      dispatch(signInSuccess(data));
+      dispatch(Success(data));
       navigate("/");
     } catch (error) {
       console.log("error with google sign in", error);

@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "@/utils/axios";
 
 const ChangePass = () => {
   const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ const ChangePass = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/v1/users/change-password", {
+      const res = await api.post("/api/v1/users/change-password", {
         oldPassword,
         newPassword,
       });

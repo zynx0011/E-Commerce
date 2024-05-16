@@ -8,21 +8,10 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "../../FireBase.js";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import {
-  deleteUserSuccess,
-  deleteUserStart,
-  deleteUserFailure,
-  signOut,
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../../store/authSlice.js";
+import { signOut, Start, Failure } from "../../store/authSlice.js";
 import { Link } from "react-router-dom";
-// import handleApiCall from "@/utils/ApiCall.js";
 import { api } from "@/utils/axios.js";
-import { BASE_URL } from "../../../config.js";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.auth);
@@ -84,28 +73,27 @@ const Profile = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(signInStart());
-      const res = await api.post(
-        `/users/update-account/${
-          currentUser?._id || user?._id || currentData?._id
-        }`,
-
-        {
-          username,
-          email,
-          formData,
-        }
-      );
-      // console.log("User updated successfully", res.data);
-      dispatch(signInSuccess(res));
-      setUpdateSuccess(true);
-    } catch (error) {
-      dispatch(signInFailure(error));
-      setError(true);
-      console.log("Error while updating user", error);
-    }
+    //   e.preventDefault();
+    //   try {
+    //     dispatch(signInStart());
+    //     const res = await api.post(
+    //       `/users/update-account/${
+    //         currentUser?._id || user?._id || currentData?._id
+    //       }`,
+    //       {
+    //         username,
+    //         email,
+    //         formData,
+    //       }
+    //     );
+    //     // console.log("User updated successfully", res.data);
+    //     dispatch(signInSuccess(res));
+    //     setUpdateSuccess(true);
+    //   } catch (error) {
+    //     dispatch(signInFailure(error));
+    //     setError(true);
+    //     console.log("Error while updating user", error);
+    //   }
   };
 
   // const handleSubmit = async (e) => {
@@ -126,25 +114,25 @@ const Profile = () => {
 
   const handleDelete = async () => {
     try {
-      dispatch(deleteUserStart());
-      const res = await axios.delete(
-        `/api/v1/users/delete-account/${
+      dispatch(Start());
+      const res = await api.delete(
+        `/users/delete-account/${
           currentUser?._id || user?._id || currentData._id
         }`
       );
-      dispatch(deleteUserSuccess(res));
+      dispatch(signOut());
       console.log("Account deleted successfully", res);
     } catch (error) {
-      dispatch(deleteUserFailure(error));
+      dispatch(Failure(error));
       console.log(" Error while deleting account", error);
     }
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e) => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/v1/users/logout`);
-      console.log(res);
       dispatch(signOut());
+      const res = await api.get(`/users/logout`);
+      // console.log(res);
     } catch (error) {
       console.log("Error while signing out", error);
     }
@@ -266,7 +254,7 @@ const Profile = () => {
             </Link>
             <button
               onClick={handleSignOut}
-              className="text-red-700 cursor-pointer p-3 font-semibold underline hover:text-red-600"
+              className="text-red-700 cursor-pointer p-3  whitespace-nowrap font-semibold underline hover:text-red-600"
             >
               Sign Out
             </button>

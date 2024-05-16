@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../../store/authSlice";
+import { Start, Success, Failure } from "../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../../utils/OAuth";
 import { toast } from "react-hot-toast";
-import { BASE_URL } from "../../../config";
 import { api } from "@/utils/axios";
 
 const SignIn = () => {
@@ -22,17 +16,17 @@ const SignIn = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart());
+      dispatch(Start());
       const res = await api.post(`/users/SignIn`, {
         email,
         password,
       });
       // console.log(res.data?.data);
-      dispatch(signInSuccess(res));
+      dispatch(Success(res));
       toast.success("Sign In Successfull");
       Navigate("/");
     } catch (err) {
-      dispatch(signInFailure(err));
+      dispatch(Failure(err));
       toast.error("Sign In Failed");
       console.log(err);
     }
