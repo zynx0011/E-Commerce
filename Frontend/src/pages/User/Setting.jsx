@@ -53,12 +53,10 @@ const Setting = () => {
         <p className="py-2 text-xl font-semibold">Your Details</p>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <p className="text-gray-600">
-            Your email address is{" "}
-            <strong>{currentUser?.data?.data?.user?.email}</strong>
+            Your email address is <strong>{currentUser?.email}</strong>
           </p>
           <p className="text-gray-600">
-            Your username is{" "}
-            <strong>{currentUser?.data?.data?.user?.username}</strong>
+            Your username is <strong>{currentUser?.username}</strong>
           </p>
           {
             <button
