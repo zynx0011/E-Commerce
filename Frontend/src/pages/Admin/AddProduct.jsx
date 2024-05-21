@@ -1,14 +1,9 @@
 import productCategory from "@/utils/ProductCatogery";
-// import { storeImage } from "@/utils/Uploader";
+import { storeImage } from "@/utils/Uploader";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { MdClose, MdDelete } from "react-icons/md";
-import { app } from "../../../Firebase.js";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+
 const AddProduct = ({ onclose }) => {
   const [Product, setProduct] = useState({
     productName: "",
@@ -20,15 +15,10 @@ const AddProduct = ({ onclose }) => {
     brand: "",
   });
   const [images, setImages] = useState([]);
-  const [uploading, setUploading] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  // console.log(images);
 
   const uploadImages = () => {
     console.log(images.length > 0 && images.length && Product.image.length < 6);
     if (images.length > 0 && images.length && Product.image.length < 6) {
-      setUploading(true);
       const promises = [];
       for (let i = 0; i < images.length; i++) {
         promises.push(storeImage(images[i]));
@@ -39,41 +29,15 @@ const AddProduct = ({ onclose }) => {
             ...Product,
             image: Product.image.concat(urls),
           });
-          setImageError(false);
-          setUploading(false);
+          toast.success("Images uploaded successfully");
         })
         .catch((error) => {
-          setImageError("Image upload failed  please try again");
-          setUploading(false);
+          toast.error("Images upload failed");
+          console.log(error);
         });
     } else {
-      setImageError("Image upload failed  please select less than 7 images");
-      setUploading(false);
+      toast.error("Image upload failed  please select less than 7 images");
     }
-  };
-
-  const storeImage = async (image) => {
-    return new Promise((resolve, reject) => {
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + image.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
   };
 
   const submitHandler = async (e) => {
@@ -93,6 +57,7 @@ const AddProduct = ({ onclose }) => {
       ...Product,
       image: Product.image.filter((_, i) => i !== index),
     });
+    toast.success("Images removed successfully");
   };
   return (
     <div className=" bg-white/80 min-h-screen  overflow-y-auto dark:bg-black/50 z-10 flex justify-center items-center">
