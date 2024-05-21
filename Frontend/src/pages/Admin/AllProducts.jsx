@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import AdminPanel from "./Admin";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { api } from "@/utils/axios";
-import EditProfile from "./EditProfile";
 import toast from "react-hot-toast";
 import { Query, useQuery } from "@tanstack/react-query";
 import AddProduct from "./AddProduct";
@@ -58,13 +56,25 @@ const AllProducts = () => {
   return (
     <div className=" w-full bg-white  dark:bg-black md:flex hidden">
       <div className="flex max-w-full  ">
-        {" "}
         <AdminPanel />
       </div>
-      <div className="div">
-        {openUpdateRole && (
-          <AddProduct onclose={() => setOpenUpdateRole(false)} />
-        )}
+      <div className="flex  justify-center mx-auto p-3 ">
+        <div className="w-full min-w-[70vw] ">
+          <div className="flex justify-between items-center p-7 bg-gradient-to-r from-indigo-500 to-blue-500">
+            <h1 className="text-3xl font-bold text-white">All Products</h1>
+            <button
+              onClick={() => setOpenUpdateRole(true)}
+              className="btn p-3 whitespace-nowrap bg-white text-black"
+            >
+              Add Product{" "}
+            </button>
+          </div>
+          <div className="">
+            {openUpdateRole && (
+              <AddProduct onclose={() => setOpenUpdateRole(false)} />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

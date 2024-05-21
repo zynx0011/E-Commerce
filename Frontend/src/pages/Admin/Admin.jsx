@@ -12,7 +12,7 @@ const AdminPanel = () => {
   return (
     <div className="mx-4 min-h-screen max-w-[20vw] hidden md:block border-r-2 sm:mx-8 xl:mx-auto p-6 bg-white dark:bg-black  dark:text-white text-black  ">
       <h1 className="border-b py-6 text-4xl font-semibold">Settings</h1>
-      <div className=" min-w-[100vw]">
+      <div className=" min-w-[20vw]">
         <div className="col-span-2 hidden sm:block ">
           <ul className="flex flex-col">
             <NavLink
