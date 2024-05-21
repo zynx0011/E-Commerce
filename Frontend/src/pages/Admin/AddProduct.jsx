@@ -1,9 +1,15 @@
 import productCategory from "@/utils/ProductCatogery";
+// import { storeImage } from "@/utils/Uploader";
 import React, { useState } from "react";
-import { MdClose } from "react-icons/md";
-
+import { MdClose, MdDelete } from "react-icons/md";
+import { app } from "../../../Firebase.js";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 const AddProduct = ({ onclose }) => {
-  const [image, setImage] = useState([]);
   const [Product, setProduct] = useState({
     productName: "",
     description: "",
@@ -13,6 +19,67 @@ const AddProduct = ({ onclose }) => {
     image: [],
     brand: "",
   });
+  const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // console.log(images);
+
+  const uploadImages = () => {
+    console.log(images.length > 0 && images.length && Product.image.length < 6);
+    if (images.length > 0 && images.length && Product.image.length < 6) {
+      setUploading(true);
+      const promises = [];
+      for (let i = 0; i < images.length; i++) {
+        promises.push(storeImage(images[i]));
+      }
+      Promise.all(promises)
+        .then((urls) => {
+          setProduct({
+            ...Product,
+            image: Product.image.concat(urls),
+          });
+          setImageError(false);
+          setUploading(false);
+        })
+        .catch((error) => {
+          setImageError("Image upload failed  please try again");
+          setUploading(false);
+        });
+    } else {
+      setImageError("Image upload failed  please select less than 7 images");
+      setUploading(false);
+    }
+  };
+
+  const storeImage = async (image) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + image.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // console.log(formData);
+  };
 
   const handleOnChange = (e) => {
     setProduct({
@@ -20,8 +87,15 @@ const AddProduct = ({ onclose }) => {
       [e.target.id]: e.target.value,
     });
   };
+
+  const handleRemoveImage = (index) => {
+    setProduct({
+      ...Product,
+      image: Product.image.filter((_, i) => i !== index),
+    });
+  };
   return (
-    <div className=" bg-white/80 min-h-screen  dark:bg-black/50 z-10 flex justify-center items-center">
+    <div className=" bg-white/80 min-h-screen  overflow-y-auto dark:bg-black/50 z-10 flex justify-center items-center">
       <div className="mx-auto -mt-[1%]   bg-white dark:bg-black/50 border-2 shadow-lg  backdrop:blur-3xl   p-10 m-4 w-full  relative">
         <div className="container mx-auto ">
           <div className=" flex relative ">
@@ -32,71 +106,8 @@ const AddProduct = ({ onclose }) => {
             />
           </div>
           <div className=" ">
-            {/* <form className="max-w-md mx-auto h-full">
-              <div className="mb-4">
-                <label
-                  htmlFor="productName"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  id="productName"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="description"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="price"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Price
-                </label>
-                <input
-                  type="number"
-                  id="price"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="imageURL"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Image URL
-                </label>
-                <input
-                  type="url"
-                  id="imageURL"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              >
-                Add Product
-              </button>
-            </form> */}
             <div className="div text-gray-300  ">
-              <form action="">
+              <form action="" onSubmit={submitHandler}>
                 <div className="mb-4">
                   <label
                     htmlFor="productName"
@@ -111,7 +122,6 @@ const AddProduct = ({ onclose }) => {
                     value={Product.productName}
                     onChange={handleOnChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                    required
                   />
                 </div>
                 <div className="mb-4">
@@ -124,7 +134,6 @@ const AddProduct = ({ onclose }) => {
                   <textarea
                     id="description"
                     className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                    required
                     value={Product.description}
                     onChange={handleOnChange}
                     placeholder="Enter product description"
@@ -138,17 +147,46 @@ const AddProduct = ({ onclose }) => {
                   >
                     Image
                   </label>
-                  <input
-                    type="file"
-                    id="imageURL"
-                    onChange={handleOnChange}
-                    value={image}
-                    accept="image/*"
-                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                    required
-                    placeholder="Enter product image"
-                  />
-                  <img src={image} alt="a" />
+                  <div className="flex ">
+                    <input
+                      type="file"
+                      id="imageURL"
+                      onChange={(e) => {
+                        setImages(e.target.files);
+                      }}
+                      accept="image/*"
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                      multiple
+                      min={1}
+                      max={6}
+                      placeholder="Enter product image"
+                    />
+                    <button
+                      onClick={uploadImages}
+                      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center  justify-evenly gap-4 flex-wrap">
+                  {Product.image &&
+                    Product.image?.map((url, index) => (
+                      <div
+                        key={url}
+                        className="flex items-center justify-center relative border w-[30%] "
+                      >
+                        <img
+                          src={url}
+                          alt="listing image"
+                          className="w-40 h-40 object-contain rounded-lg"
+                        />
+                        <MdDelete
+                          onClick={() => handleRemoveImage(index)}
+                          className="text-red-700 text-3xl cursor-pointer hover:text-red-500 absolute bottom-2 right-1 "
+                        />
+                      </div>
+                    ))}
                 </div>
                 <div className="flex items-center justify-center">
                   <div className="mb-4 w-[40%]">
@@ -164,7 +202,6 @@ const AddProduct = ({ onclose }) => {
                       value={Product.price}
                       onChange={handleOnChange}
                       className=" border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                      required
                       placeholder="Enter product price"
                     />
                   </div>
@@ -176,7 +213,6 @@ const AddProduct = ({ onclose }) => {
                       Category
                     </label>
                     <select
-                      required
                       value={Product.category}
                       id="category"
                       onChange={handleOnChange}
@@ -205,7 +241,6 @@ const AddProduct = ({ onclose }) => {
                       onChange={handleOnChange}
                       id="quantity"
                       className=" border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                      required
                       placeholder="Enter product quantity"
                     />
                   </div>
@@ -224,7 +259,6 @@ const AddProduct = ({ onclose }) => {
                     value={Product.brand}
                     onChange={handleOnChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                    required
                     placeholder="Enter product brand"
                   />
                 </div>

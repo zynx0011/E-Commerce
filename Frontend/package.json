@@ -18,7 +18,7 @@
     "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "firebase": "^10.11.0",
+    "firebase": "^10.12.1",
     "icons": "^1.0.0",
     "lucide-react": "^0.372.0",
     "moment": "^2.30.1",

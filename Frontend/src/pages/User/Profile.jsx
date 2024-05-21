@@ -7,7 +7,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app } from "../../FireBase.js";
+import { app } from "../../utils/FireBase.js";
 import { useDispatch } from "react-redux";
 import { signOut, Start, Failure } from "../../store/authSlice.js";
 import { Link } from "react-router-dom";

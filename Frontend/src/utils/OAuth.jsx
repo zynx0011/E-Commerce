@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { app } from "../FireBase.js";
+import { app } from "./FireBase.js";
 import { useDispatch } from "react-redux";
 import { Success } from "../store/authSlice.js";
 import { useNavigate } from "react-router-dom";
