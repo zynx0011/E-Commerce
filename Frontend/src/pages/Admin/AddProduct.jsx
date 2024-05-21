@@ -1,5 +1,6 @@
 import productCategory from "@/utils/ProductCatogery";
 import { storeImage } from "@/utils/Uploader";
+import { api } from "@/utils/axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { MdClose, MdDelete } from "react-icons/md";
@@ -42,7 +43,16 @@ const AddProduct = ({ onclose }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(formData);
+    try {
+      const res = await api.post("/product/add", Product);
+      if (res) {
+        onclose();
+        toast.success("product is created successfully");
+      }
+    } catch (error) {
+      toast.error("product is  not created ");
+      console.log(error);
+    }
   };
 
   const handleOnChange = (e) => {
