@@ -63,77 +63,75 @@ const AllUsers = () => {
   return (
     <div className=" w-full bg-white  dark:bg-black md:flex hidden">
       <div className="flex max-w-full  ">
-        {" "}
         <AdminPanel />
       </div>
-      <div className=" w-full mx-auto max-w-screen-lg p-5 ">
-        <div className="flex items-center justify-between pb-6">
-          <div>
-            <h2 className="font-semibold text-2xl">User Accounts</h2>
-            <span className="text-xl text-gray-500">
-              View accounts of registered users
-            </span>
+      <div className="flex  justify-center mx-auto p-3 ">
+        <div className="w-full min-w-[70vw] ">
+          <div className="flex justify-between items-center p-7 bg-gradient-to-r from-indigo-500 to-blue-500">
+            <h1 className="text-3xl font-bold text-white">All Users</h1>
           </div>
-        </div>
-        <div className="overflow-y-hidden rounded-lg border ">
-          <div className="overflow-x-auto ">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-[#6366f1] text-left text-xs font-semibold uppercase tracking-widest text-white">
-                  <th className="px-5 py-3">Sr.</th>
-                  <th className="px-5 py-3">Full Name</th>
-                  <th className="px-5 py-3">User Role</th>
-                  <th className="px-5 py-3">Created at</th>
-                  <th className="px-5 py-3">Edit</th>
-                  <th className="px-5 py-3">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allUser?.map((user, index) => (
-                  <tr
-                    className="border-b bg-white text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
-                    key={index}
-                  >
-                    <td className="px-5 py-5">{index + 1}</td>
-                    <td className="px-5 py-5">{user?.username}</td>
-                    <td className="px-5 py-5">
-                      {user?.isAdmin ? "Admin" : "User"}
-                    </td>
-                    <td className="px-5 py-5">
-                      {moment(user?.createdAt).format("Do MMMM  YYYY, h:mm a")}
-                    </td>
-                    <td className="px-5 py-5">
-                      <button
-                        onClick={() => {
-                          setOpenUpdateRole(true);
-                          setUpdateUserDetails(user);
-                        }}
-                        className="text-blue-500 text-xl"
-                      >
-                        <MdModeEdit />
-                      </button>
-                      {openUpdateRole && (
-                        <EditProfile
-                          name={updateUserDetails.username}
-                          email={updateUserDetails.email}
-                          role={updateUserDetails.isAdmin ? "Admin" : "User"}
-                          userId={updateUserDetails._id}
-                          onClose={() => setOpenUpdateRole(false)}
-                        />
-                      )}
-                    </td>
-                    <td className="px-5 py-5">
-                      <button
-                        className="text-red-500 text-xl"
-                        onClick={() => deleteUser(user?._id)}
-                      >
-                        <MdDelete />
-                      </button>
-                    </td>
+          <div className="overflow-y-hidden rounded-lg border ">
+            <div className="overflow-x-auto  p-3 ">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-[#6366f1] text-left text-xs font-semibold uppercase tracking-widest text-white">
+                    <th className="px-5 py-3">Sr.</th>
+                    <th className="px-5 py-3">Full Name</th>
+                    <th className="px-5 py-3">User Role</th>
+                    <th className="px-5 py-3">Created at</th>
+                    <th className="px-5 py-3">Edit</th>
+                    <th className="px-5 py-3">Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {allUser?.map((user, index) => (
+                    <tr
+                      className="border-b bg-white text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+                      key={index}
+                    >
+                      <td className="px-5 py-5">{index + 1}</td>
+                      <td className="px-5 py-5">{user?.username}</td>
+                      <td className="px-5 py-5">
+                        {user?.isAdmin ? "Admin" : "User"}
+                      </td>
+                      <td className="px-5 py-5">
+                        {moment(user?.createdAt).format(
+                          "Do MMMM  YYYY, h:mm a"
+                        )}
+                      </td>
+                      <td className="px-5 py-5">
+                        <button
+                          onClick={() => {
+                            setOpenUpdateRole(true);
+                            setUpdateUserDetails(user);
+                          }}
+                          className="text-blue-500 text-xl"
+                        >
+                          <MdModeEdit />
+                        </button>
+                        {openUpdateRole && (
+                          <EditProfile
+                            name={updateUserDetails.username}
+                            email={updateUserDetails.email}
+                            role={updateUserDetails.isAdmin ? "Admin" : "User"}
+                            userId={updateUserDetails._id}
+                            onClose={() => setOpenUpdateRole(false)}
+                          />
+                        )}
+                      </td>
+                      <td className="px-5 py-5">
+                        <button
+                          className="text-red-500 text-xl"
+                          onClick={() => deleteUser(user?._id)}
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MdDelete, MdModeEdit } from "react-icons/md";
+import { MdCurrencyRupee, MdDelete, MdModeEdit } from "react-icons/md";
 import AdminPanel from "./Admin";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -102,11 +102,15 @@ const AllProducts = () => {
                     >
                       <td className="px-5 py-5">{index + 1}</td>
                       <td className="px-5 py-5">{product?.productName}</td>
-                      <td className="px-5 py-5 text-red-500">
+                      <td className="px-5 py-5 text-red-500 flex items-center">
+                        <MdCurrencyRupee />
                         {product?.price}
                       </td>
-                      <td className="px-5 py-5 text-green-500">
-                        {product?.sellingPrice}
+                      <td className="px-5 py-5  text-green-500">
+                        <p className="flex items-center">
+                          <MdCurrencyRupee />
+                          {product?.sellingPrice}
+                        </p>
                       </td>
                       <td className="px-5 py-5">{product?.quantity}</td>
                       <td className="px-5 py-5">
