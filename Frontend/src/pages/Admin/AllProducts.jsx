@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { api } from "@/utils/axios";
 import toast from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
 import AddProduct from "./AddProduct";
+import EditProduct from "./EditProduct";
 
 const AllProducts = () => {
   const user = useSelector((state) => state?.user?.user);
@@ -18,23 +18,19 @@ const AllProducts = () => {
     }
   }, [user]);
 
-  const [openUpdateRole, setOpenUpdateRole] = useState(true);
+  const [openUpdateRole, setOpenUpdateRole] = useState(false);
+  const [openEdit, setopenEdit] = useState(false);
+  const [AllProducts, setAllProducts] = useState([]);
+  const [productId, setProductId] = useState("");
 
   const fetchallProducts = async () => {
     try {
       const res = await api.get(`/product/all-products`);
-      // console.log(res.data);
-      return res.data;
+      setAllProducts(res.data);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const { isLoading, data: AllProducts } = useQuery({
-    queryKey: ["all-products"],
-    queryFn: fetchallProducts,
-  });
-  // console.log(AllProducts);
 
   const deleteProduct = async (id) => {
     try {
@@ -51,7 +47,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     fetchallProducts();
-  }, [deleteProduct, openUpdateRole]);
+  }, [openEdit, openUpdateRole]);
 
   return (
     <div className=" w-full bg-white  dark:bg-black md:flex hidden">
@@ -74,6 +70,14 @@ const AllProducts = () => {
               <AddProduct onclose={() => setOpenUpdateRole(false)} />
             )}
           </div>
+          {openEdit && (
+            <div className=" ">
+              <EditProduct
+                onclose={() => setopenEdit(false)}
+                Aprouct={productId}
+              />
+            </div>
+          )}
           <div className="overflow-y-hidden rounded-lg border ">
             <div className="overflow-x-auto p-3 ">
               <table className="w-full">
@@ -82,7 +86,9 @@ const AllProducts = () => {
                     <th className="px-5 py-3">Sr.</th>
                     <th className="px-5 py-3">Product Name</th>
                     <th className="px-5 py-3">Price</th>
+                    <th className="px-5 py-3">Selling Price</th>
                     <th className="px-5 py-3">Quantity</th>
+                    <th className="px-5 py-3">In Stock</th>
                     <th className="px-5 py-3">Brand</th>
                     <th className="px-5 py-3">Edit</th>
                     <th className="px-5 py-3">Delete</th>
@@ -91,18 +97,28 @@ const AllProducts = () => {
                 <tbody>
                   {AllProducts?.map((product, index) => (
                     <tr
-                      className="border-b bg-white text-sm  text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+                      className="border-b bg-white text-md font-medium  text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
                       key={index}
                     >
                       <td className="px-5 py-5">{index + 1}</td>
                       <td className="px-5 py-5">{product?.productName}</td>
-                      <td className="px-5 py-5">{product?.price}</td>
+                      <td className="px-5 py-5 text-red-500">
+                        {product?.price}
+                      </td>
+                      <td className="px-5 py-5 text-green-500">
+                        {product?.sellingPrice}
+                      </td>
                       <td className="px-5 py-5">{product?.quantity}</td>
-                      <td className="px-5 py-5">{product?.brand}</td>
-
                       <td className="px-5 py-5">
-                        <button className="text-blue-500 text-xl">
-                          <MdModeEdit />
+                        {product?.quantity > 5 ? "Yes" : "No"}
+                      </td>
+                      <td className="px-5 py-5">{product?.brand}</td>
+                      <td className="px-5 py-5">
+                        <button
+                          className="text-blue-500 text-xl"
+                          onClick={() => setopenEdit(true)}
+                        >
+                          <MdModeEdit onClick={() => setProductId(product)} />
                         </button>
                       </td>
                       <td className="px-5 py-5">
