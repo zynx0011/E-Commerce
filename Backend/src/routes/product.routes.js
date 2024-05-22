@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   AddProduct,
+  EditProduct,
   deleteProduct,
   getAllProducts,
 } from "../controllers/product.controller.js";
@@ -14,4 +15,6 @@ router.route("/all-products").get(verifyjwt, adminVerify, getAllProducts);
 router
   .route("/delete-product/:id")
   .delete(verifyjwt, adminVerify, deleteProduct);
+router.route("/edit-product/:id").post(verifyjwt, adminVerify, EditProduct);
+
 export default router;

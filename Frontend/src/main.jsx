@@ -59,11 +59,11 @@ const router = createBrowserRouter(
 );
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    // queries: {
-    //   staleTime: 60000 * 3,
-    // },
-  },
+  // defaultOptions: {
+  //   // queries: {
+  //   //   staleTime: 60000 * 3,
+  //   // },
+  // },
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(

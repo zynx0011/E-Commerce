@@ -14,6 +14,7 @@ const AddProduct = ({ onclose }) => {
     quantity: "",
     image: [],
     brand: "",
+    sellingPrice: "",
   });
   const [images, setImages] = useState([]);
 
@@ -163,8 +164,8 @@ const AddProduct = ({ onclose }) => {
                       </div>
                     ))}
                 </div>
-                <div className="flex items-center justify-center">
-                  <div className="mb-4 w-[40%]">
+                <div className=" grid grid-cols-2 items-center p-5 ">
+                  <div className="mb-4 w-[20%]">
                     <label
                       htmlFor="price"
                       className="block text-gray-700 font-bold mb-2"
@@ -180,7 +181,23 @@ const AddProduct = ({ onclose }) => {
                       placeholder="Enter product price"
                     />
                   </div>
-                  <div className="mb-4 w-[40%]">
+                  <div className="mb-4 w-[20%]">
+                    <label
+                      htmlFor="sellingPrice"
+                      className="block text-gray-700 font-bold mb-2 whitespace-nowrap"
+                    >
+                      Selling Price
+                    </label>
+                    <input
+                      type="number"
+                      id="sellingPrice"
+                      value={Product.sellingPrice}
+                      onChange={handleOnChange}
+                      className=" border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                      placeholder="Enter product selling price"
+                    />
+                  </div>
+                  <div className="mb-4 w-[20%]">
                     <label
                       htmlFor="category"
                       className="block text-gray-700 font-bold mb-2"
@@ -191,7 +208,7 @@ const AddProduct = ({ onclose }) => {
                       value={Product.category}
                       id="category"
                       onChange={handleOnChange}
-                      className="block text-gray-400 p-3   font-bold mb-2"
+                      className="block text-gray-400 p-3   font-bold "
                     >
                       <option value={""}>Select Category</option>
                       {productCategory.map((el, index) => {
@@ -203,7 +220,7 @@ const AddProduct = ({ onclose }) => {
                       })}
                     </select>
                   </div>
-                  <div className="mb-4 w-[40%]">
+                  <div className="mb-4 w-[20%]">
                     <label
                       htmlFor="quantity"
                       className="block text-gray-700 font-bold mb-2"
