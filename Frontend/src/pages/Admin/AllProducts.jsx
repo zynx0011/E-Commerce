@@ -84,6 +84,7 @@ const AllProducts = () => {
                 <thead>
                   <tr className="bg-[#6366f1] text-left text-xs font-semibold uppercase tracking-widest text-white">
                     <th className="px-5 py-3">Sr.</th>
+                    <th className="px-5 py-3">Product Image</th>
                     <th className="px-5 py-3">Product Name</th>
                     <th className="px-5 py-3">Price</th>
                     <th className="px-5 py-3">Selling Price</th>
@@ -101,10 +102,21 @@ const AllProducts = () => {
                       key={index}
                     >
                       <td className="px-5 py-5">{index + 1}</td>
-                      <td className="px-5 py-5">{product?.productName}</td>
-                      <td className="px-5 py-5 text-red-500 flex items-center">
-                        <MdCurrencyRupee />
-                        {product?.price}
+                      <td className="px-5 py-5">
+                        <img
+                          src={product?.image[0]}
+                          className="w-[60px] h-[60px]"
+                          alt=""
+                        />
+                      </td>
+                      <td className="px-5 py-5 text-ellipsis">
+                        {product?.productName}
+                      </td>
+                      <td className="px-5 py-5 text-red-500 ">
+                        <p className="flex items-center">
+                          <MdCurrencyRupee />
+                          {product?.price}
+                        </p>
                       </td>
                       <td className="px-5 py-5  text-green-500">
                         <p className="flex items-center">

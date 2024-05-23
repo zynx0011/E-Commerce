@@ -262,6 +262,22 @@ const EditProduct = ({ onclose, Aprouct }) => {
                     placeholder="Enter product brand"
                   />
                 </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="Specification"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Specification
+                  </label>
+                  <input
+                    type="text"
+                    id="Specification"
+                    value={Product.Specification}
+                    onChange={handleOnChange}
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                    placeholder="Enter product brand"
+                  />
+                </div>
                 <button
                   // type="submit"
                   className="bg-blue-500 w-full font-bold mt-7 text-white p-3 rounded hover:bg-blue-600"

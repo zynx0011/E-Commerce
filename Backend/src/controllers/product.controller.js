@@ -13,6 +13,7 @@ const AddProduct = asyncHandler(async (req, res) => {
     image,
     brand,
     sellingPrice,
+    specification,
   } = req.body;
 
   if (
@@ -22,7 +23,8 @@ const AddProduct = asyncHandler(async (req, res) => {
     !price ||
     !quantity ||
     !brand ||
-    !sellingPrice
+    !sellingPrice ||
+    !specification
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -42,6 +44,7 @@ const AddProduct = asyncHandler(async (req, res) => {
     brand,
     image,
     sellingPrice,
+    specification,
   });
 
   if (!product) {
