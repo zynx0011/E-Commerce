@@ -4,7 +4,6 @@ import { api } from "@/utils/axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { MdClose, MdDelete } from "react-icons/md";
-import AddProduct from "./AddProduct";
 
 const EditProduct = ({ onclose, Aprouct }) => {
   const [Product, setProduct] = useState({

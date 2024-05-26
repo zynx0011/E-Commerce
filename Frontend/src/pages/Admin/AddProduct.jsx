@@ -213,8 +213,8 @@ const AddProduct = ({ onclose }) => {
                       <option value={""}>Select Category</option>
                       {productCategory.map((el, index) => {
                         return (
-                          <option value={el.value} key={el.value + index}>
-                            {el.label}
+                          <option value={el.name} key={el.name + index}>
+                            {el.name}
                           </option>
                         );
                       })}

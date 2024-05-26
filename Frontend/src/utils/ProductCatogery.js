@@ -1,20 +1,16 @@
 const productCategory = [
-  { id: 1, label: "Airpodes", value: "airpodes" },
-  { id: 2, label: "Camera", value: "camera" },
-  { id: 3, label: "Earphones", value: "earphones" },
-  { id: 4, label: "Mobiles", value: "mobiles" },
-  { id: 5, label: "Mouse", value: "Mouse" },
-  { id: 6, label: "Printers", value: "printers" },
-  { id: 7, label: "Processor", value: "processor" },
-  { id: 8, label: "Refrigerator", value: "refrigerator" },
-  { id: 9, label: "Speakers", value: "speakers" },
-  { id: 10, label: "Trimmers", value: "trimmers" },
-  { id: 11, label: "Televisions", value: "televisions" },
-  { id: 12, label: "Watches", value: "watches" },
-  { id: 13, label: "Washing Machine", value: "washing machine" },
-  { id: 14, label: "Others", value: "others" },
-  { id: 15, label: "Clothes", value: "clothes" },
-  { id: 16, label: "Shoes", value: "shoes" },
+  {
+    name: "True Wireless Earbuds",
+    icon: "/Assets/rendering-smart-home-device.png",
+  },
+  { name: "Party Speakers", icon: "Assets/party speaker.webp" },
+  { name: "Wired Headphones", icon: "/Assets/wiredheadphones_100x.webp" },
+  { name: "Neckbands", icon: "/Assets/Neckband-removebg-preview.png" },
+  { name: "Wired Earphones", icon: "/Assets/Wiredearphones_100x.webp" },
+  { name: "Smart Watches", icon: "/Assets/smart watch.jpg" },
+  { name: "Soundbars", icon: "/Assets/sound.webp" },
+  { name: "Wireless Headphones", icon: "/Assets/wireless.webp" },
+  { name: "Gaming Headphones", icon: "/Assets/wired headphoned.webp" },
 ];
 
 export default productCategory;
